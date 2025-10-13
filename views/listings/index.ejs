@@ -1,0 +1,197 @@
+<% layout("layouts/boilerplate") %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WanderLust</title>
+
+    <style>
+      /* ==== FILTER BAR (HORIZONTAL) ==== */
+      #filters {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: thin;
+        padding: 10px 0;
+        gap: 25px;
+        align-items: center;
+      }
+
+      /* Hide scrollbar on Webkit browsers */
+      #filters::-webkit-scrollbar {
+        height: 6px;
+      }
+      #filters::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 10px;
+      }
+
+      .filter {
+        flex: 0 0 auto;
+        text-align: center;
+        opacity: 0.7;
+        transition: 0.3s ease;
+        min-width: 80px;
+      }
+
+      .filter p {
+        font-size: 0.85rem;
+        margin-top: 4px;
+      }
+
+      .filter:hover {
+        cursor: pointer;
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      /* ==== TAX SWITCH ==== */
+      .tax-toggle {
+        flex: 0 0 auto;
+        margin-left: 20px;
+        white-space: nowrap;
+      }
+
+      /* ==== LISTINGS ==== */
+      .listing-card {
+        transition: 0.3s ease-in-out;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+      }
+
+      .listing-card:hover {
+        transition: 0.1s;
+        transform: scale(1.03);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      }
+
+      .listing-card img {
+        height: 220px;
+        object-fit: cover;
+      }
+
+      .listing-link {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .card-body {
+        text-align: center;
+      }
+
+      .tax-amt {
+        display: none;
+        color: #888;
+        font-size: 0.9rem;
+      }
+
+      hr {
+        margin: 8px 0;
+      }
+      .tax-toggle-border{
+        border: 1px solid black;
+        height: 3em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        border-radius: 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ==== FILTER BAR ==== -->
+    <div id="filters">
+      <div class="filter">
+        <div><i class="fa-solid fa-fire fa-lg"></i></div>
+        <p>Trending</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-bed fa-lg"></i></div>
+        <p>Rooms</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-mountain-city fa-lg"></i></div>
+        <p>Iconic Cities</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-mountain-sun fa-lg"></i></div>
+        <p>Mountains</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-brands fa-fort-awesome fa-lg"></i></div>
+        <p>Castles</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-person-swimming fa-lg"></i></div>
+        <p>Pools</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-tents fa-lg"></i></div>
+        <p>Camping</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-tractor fa-lg"></i></div>
+        <p>Farms</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-person-skiing fa-lg"></i></div>
+        <p>Arctic</p>
+      </div>
+
+      <!-- ==== TAX TOGGLE ==== -->
+       <div class="tax-toggle-border">
+ <div class="tax-toggle">
+        <div class="form-check form-switch">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="switchCheckDefault"
+          />
+          <label class="form-check-label" for="switchCheckDefault">
+            Display total after taxes
+          </label>
+        </div>
+      </div>
+       </div>
+
+     
+    </div>
+
+    <!-- ==== LISTINGS ==== -->
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-4">
+      <% for (let list of alllist) { %>
+      <a href="/listings/<%= list._id %>" class="listing-link">
+        <div class="card col listing-card">
+          <img src="<%= list.image.url %>" class="card-img-top" alt="<%= list.title %>" />
+          <div class="card-body">
+            <p class="card-text">
+              <b><%= list.title %></b>
+              <hr />
+              <%- list.price.toLocaleString("en-IN", { style: "currency", currency: "INR" }) %>
+              / night
+              <i class="tax-amt">+ 18% GST</i>
+            </p>
+          </div>
+        </div>
+      </a>
+      <% } %>
+    </div>
+
+    <!-- ==== SCRIPT ==== -->
+    <script>
+      const taxSwitch = document.getElementById("switchCheckDefault");
+      taxSwitch.addEventListener("change", () => {
+        const taxMsgs = document.querySelectorAll(".tax-amt");
+        taxMsgs.forEach((msg) => {
+          msg.style.display = taxSwitch.checked ? "inline" : "none";
+        });
+      });
+    </script>
+  </body>
+</html>

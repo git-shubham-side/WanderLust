@@ -1,4 +1,4 @@
-# Wanderlust---Travel-Stay-Booking-Web-App
+# Wanderlust-Travel Stay Booking Web Application
 
 WanderLust is a full-stack web application designed to facilitate seamless travel accommodation bookings. Inspired by platforms like Airbnb, it allows users to explore, list, and book vacation properties such as houses, villas, and farmhouses.
 
